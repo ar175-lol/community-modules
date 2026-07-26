@@ -2,6 +2,7 @@
   config,
   pkgs,
   lib,
+  utils,
   ...
 }:
 let
@@ -9,8 +10,9 @@ let
 
   inherit (import ./lib.nix { inherit lib; })
     mkFinitInitrdMountCmds
-    escapePath
     ;
+
+  inherit (utils) escapePath;
 
   allCmds = lib.flatten (lib.mapAttrsToList mkFinitInitrdMountCmds cfg.preserveAt);
   script = pkgs.writeScript "preservation-initrd" ''
